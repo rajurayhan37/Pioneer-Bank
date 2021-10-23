@@ -23,19 +23,19 @@
             <div class="col-md-4">
                 <div class="deposit status">
                     <h5>Deposit</h5>
-                    <h2>$00</h2>
+                    <h2>$<span id="currentDeposit">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="balance status">
                     <h5>Balance</h5>
-                    <h2>$1200</h2>
+                    <h2>$<span id="currentBalance">00</span></h2>
                 </div>
             </div>
         </div>
@@ -67,14 +67,29 @@
 
         const depositBtn = document.getElementById('deposit');
         depositBtn.addEventListener("click",function(){
-            var depositAmt = document.getElementById('depositAmt').value
-            console.log(depositAmt);
+            const depositAmmount = getAmmount("depositAmt");
+            transaction("currentDeposit",depositAmmount);
+            transaction("currentBalance",depositAmmount); 
         })
+
+        function getAmmount(id){
+            var value = document.getElementById(id).value
+            const ammount = parseFloat(value);
+            return ammount; 
+        }
+
+        function transaction(id,depositAmmount){
+            const current = document.getElementById(id).innerText;
+            const currentAmmount = parseFloat(current);
+            const totalBalance = currentAmmount + depositAmmount;
+            document.getElementById(id).innerText = totalBalance;
+        }
 
         const withdrawBtn = document.getElementById('withdraw');
         withdrawBtn.addEventListener("click", function(){
-            var withdrawAmt = document.getElementById('withdrawAmt').value
-            console.log(withdrawAmt);
+            const withdrawAmmount = getAmmount("withdrawAmt"); 
+            transaction("currentWithdraw", withdrawAmmount);
+            transaction("currentBalance", -1*withdrawAmmount);
         })
     </script>
     
